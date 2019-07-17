@@ -4,22 +4,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t kartikhegde/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t "$DOCKER_ID"/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run  -e CI=true kartikhegde/react-test npm test
+  - docker run  -e CI=true "$DOCKER_ID"/react-test npm test
 
 after_success:
-  - docker build -t kartikhegde/multi-client ./client
-  - docker build -t kartikhegde/multi-nginx ./nginx
-  - docker build -t kartikhegde/multi-server ./server
-  - docker build -t kartikhegde/multi-worker ./worker
+  - docker build -t "$DOCKER_ID"/multi-client ./client
+  - docker build -t "$DOCKER_ID"/multi-nginx ./nginx
+  - docker build -t "$DOCKER_ID"/multi-server ./server
+  - docker build -t "$DOCKER_ID"/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - echo $DOCKER_ID
-  - echo $DOCKER_PASSWORD
   # Take those images and push them to docker hub
-  - docker push kartikhegde/multi-client
-  - docker push kartikhegde/multi-nginx
-  - docker push kartikhegde/multi-server
-  - docker push kartikhegde/multi-worker
+  - docker push "$DOCKER_ID"/multi-client
+  - docker push "$DOCKER_ID"/multi-nginx
+  - docker push "$DOCKER_ID"/multi-server
+  - docker push "$DOCKER_ID"/multi-worker
