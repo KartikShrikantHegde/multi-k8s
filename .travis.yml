@@ -1,0 +1,23 @@
+language: generic 
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t kartikhegde/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run  -e CI=true kartikhegde/react-test npm test
+
+after_success:
+  - docker build -t kartikhegde/multi-client ./client
+  - docker build -t kartikhegde/multi-nginx ./nginx
+  - docker build -t kartikhegde/multi-server ./server
+  - docker build -t kartikhegde/multi-worker ./worker
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  - docker push kartikhegde/multi-client
+  - docker push kartikhegde/multi-nginx
+  - docker push kartikhegde/multi-server
+  - docker push kartikhegde/multi-worker
