@@ -1,4 +1,4 @@
-language: generic 
+language: generic
 sudo: required
 services:
   - docker
@@ -14,9 +14,9 @@ after_success:
   - docker build -t kartikhegde/multi-nginx ./nginx
   - docker build -t kartikhegde/multi-server ./server
   - docker build -t kartikhegde/multi-worker ./worker
-
+  # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-
+  # Take those images and push them to docker hub
   - docker push kartikhegde/multi-client
   - docker push kartikhegde/multi-nginx
   - docker push kartikhegde/multi-server
