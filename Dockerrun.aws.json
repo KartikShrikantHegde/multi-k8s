@@ -1,0 +1,36 @@
+{
+    "AWSEBDockerrunVersion":2,
+    "containerDefinitions":[
+        {
+            "name":"client",
+            "image":"karthdz/multi-client",
+            "hostname":"client",
+            "esssential":false
+        },
+        {
+            "name":"server",
+            "image":"karthdz/multi-server",
+            "hostname":"api",
+            "esssential":false
+        },
+        {
+            "name":"worker",
+            "image":"karthdz/multi-worker",
+            "hostname":"worker",
+            "esssential":false
+        },
+        {
+            "name":"nginx",
+            "image":"karthdz/multi-nginx",
+            "hostname":"worker",
+            "esssential":true,
+            "portMappings":[
+                {
+                    "hostPort":80,
+                    "containerPort":80
+                }
+            ],
+            "links":["client","server"]
+        }
+    ]
+}
