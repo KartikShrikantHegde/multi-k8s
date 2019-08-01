@@ -19,7 +19,7 @@ before_instll:
   - docker build -t "$DOCKER_ID"/docker-react -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run  -e CI=true "$DOCKER_ID"/docker-react npm run test
+  - docker run -e CI=true "$DOCKER_ID"/docker-react npm run test
 
 deploy:
   provider: script
